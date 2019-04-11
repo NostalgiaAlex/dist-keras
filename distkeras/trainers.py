@@ -718,7 +718,8 @@ class DOWNPOUR(AsynchronousDistributedTrainer):
     """
 
     def __init__(self, keras_model, worker_optimizer, loss, metrics=["accuracy"], num_workers=2, batch_size=32,
-                 features_col="features", label_col="label", num_epoch=1, communication_window=5, master_port=5000, loss_weights=None):
+                 features_col="features", label_col="label", num_epoch=1, communication_window=5, master_port=5000,
+                 learning_rate=0.1, loss_weights=None):
         super(DOWNPOUR, self).__init__(keras_model, worker_optimizer, loss, metrics, num_workers,
                                        batch_size, features_col, label_col, num_epoch, master_port, loss_weights)
         self.communication_window = communication_window
@@ -728,7 +729,7 @@ class DOWNPOUR(AsynchronousDistributedTrainer):
         # Allocate DOWNPOUR worker.
         worker = DOWNPOURWorker(self.master_model, self.worker_optimizer, self.loss, self.loss_weights, self.metrics,
                                 self.features_column, self.label_column, self.batch_size, self.num_epoch,
-                                self.master_host, self.master_port, self.communication_window)
+                                self.master_host, self.master_port, self.learning_rate, self.communication_window)
 
         return worker
 
@@ -813,7 +814,8 @@ class ADAG(AsynchronousDistributedTrainer):
     """
 
     def __init__(self, keras_model, worker_optimizer, loss, metrics=["accuracy"], num_workers=2, batch_size=32,
-                 features_col="features", label_col="label", num_epoch=1, communication_window=12, master_port=5000, loss_weights=None):
+                 features_col="features", label_col="label", num_epoch=1, communication_window=12, learning_rate=0.1,
+                 master_port=5000, loss_weights=None):
         # Initialize the parent object.
         super(ADAG, self).__init__(keras_model, worker_optimizer, loss, metrics, num_workers,
                                    batch_size, features_col, label_col, num_epoch, master_port, loss_weights)
@@ -824,7 +826,7 @@ class ADAG(AsynchronousDistributedTrainer):
         """Allocate an Adag worker."""
         worker = ADAGWorker(self.master_model, self.worker_optimizer, self.loss, self.loss_weights, self.metrics,
                             self.features_column, self.label_column, self.batch_size, self.num_epoch,
-                            self.master_host, self.master_port, self.communication_window)
+                            self.master_host, self.master_port, self.learning_rate, self.communication_window)
 
         return worker
 

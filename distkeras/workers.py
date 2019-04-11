@@ -350,7 +350,8 @@ class DOWNPOURWorker(NetworkWorker):
     """
 
     def __init__(self, model, optimizer, loss, loss_weights, metrics=["accuracy"], features_col="features", label_col="label",
-                 batch_size=32, num_epoch=1, master_host="localhost", master_port=5000, communication_window=3):
+                 batch_size=32, num_epoch=1, master_host="localhost", master_port=5000, learning_rate=0.01, 
+                 communication_window=3):
         # Initialize the parent object.
         super(DOWNPOURWorker, self).__init__(model, optimizer, loss, loss_weights, metrics, features_col, label_col,
                                              batch_size, num_epoch, master_host, master_port)
